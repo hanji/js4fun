@@ -6,11 +6,9 @@
 // var add = curry(function(x,y,z,w){return x+y+z+w});
 // console.log(add(1)(2)(3)(4));
 
-function curry(f){
-	var xs = Array.prototype.slice.call(arguments, 1);
-	return function(){
-		var ys = xs.concat(Array.prototype.slice.call(arguments));
-		return (ys.length < f.length) ? curry.apply(this, [f].concat(ys)) : f.apply(this, ys)
-	}
+var curry = function (f){
+    var xs = Array.prototype.slice.call(arguments, 1);
+    return (xs.length < f.length) ?
+        function (){ return curry.apply(this, [f].concat(xs.concat(Array.prototype.slice.call(arguments)))) }
+        : f.apply(this, xs);
 }
-
